@@ -9,6 +9,9 @@
 
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } {
     systems = [ "x86_64-linux" ];
+    flake = {
+      overlays.default = final: prev: (import ./filters { pkgs = prev; }).packages;
+    };
     perSystem = { pkgs, ... }:
       let
         filters = import ./filters { inherit pkgs; };
